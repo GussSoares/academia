@@ -3,15 +3,16 @@ from django.db import models
 from django.core.mail import send_mail
 from django.utils import six, timezone
 # from passlib.hash import pbkdf2_sha256
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager, AbstractBaseUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager, AbstractBaseUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
-from django.core.cache import cache
+from ..core.models import TimeStampedModel
+# from django.core.cache import cache
 import datetime
 from django.conf import settings
 
 
 # Create your models here.
-class Usuario(AbstractUser):
+class Usuario(AbstractUser, TimeStampedModel):
     # username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
     # username = models.CharField(
     #     _('username'),
@@ -23,8 +24,6 @@ class Usuario(AbstractUser):
     #         'unique': _("A user with that username already exists."),
     #     },
     # )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     matricula = models.CharField(_('matricula'), max_length=7, unique=True, blank=None, null=None)
     first_name = models.CharField(_('first name'), max_length=30, blank=True, null=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True, null=True,)
@@ -49,17 +48,16 @@ class Usuario(AbstractUser):
         # swappable = 'AUTH_USER_MODEL'
         db_table = 'usuario'
 
-    def last_seen(self):
-        return cache.get('seen_%s' % self.username)
-
-    def online(self):
-        if self.last_seen():
-            now = datetime.datetime.now()
-            if now > self.last_seen() + datetime.timedelta(
-                    seconds=settings.USER_ONLINE_TIMEOUT):
-                return False
-            else:
-                return True
-        else:
-            return False
-
+    # def last_seen(self):
+    #     return cache.get('seen_%s' % self.username)
+    #
+    # def online(self):
+    #     if self.last_seen():
+    #         now = datetime.datetime.now()
+    #         if now > self.last_seen() + datetime.timedelta(
+    #                 seconds=settings.USER_ONLINE_TIMEOUT):
+    #             return False
+    #         else:
+    #             return True
+    #     else:
+    #         return False
