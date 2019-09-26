@@ -16,17 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-import academia.apps.usuario.urls as usuario
-import academia.apps.api.urls as api
+import academia.apps.api.api as api
 
+app_name = "api"
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('usuario/', include())
-    # path('usuario/', include('apps.usuario.urls')),
-
-    # API
-    url(r'^api/', include(api, namespace="api")),
-
-    # USUARIO
-    url(r'^usuario/', include(usuario, namespace="usuario")),
+    url(r'^login/$', api.login, name="login"),
 ]

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'academia',
+    'academia.apps.api',
     'academia.apps.usuario',
     'academia.apps.core',
     'academia.apps.exercicio',

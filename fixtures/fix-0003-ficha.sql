@@ -29,3 +29,22 @@ ALTER TABLE "ficha" ALTER COLUMN "criado" DROP DEFAULT;
 ALTER TABLE "ficha" ADD COLUMN "modificado" timestamp with time zone DEFAULT '2019-09-24T14:06:58.959813+00:00'::timestamptz NULL;
 ALTER TABLE "ficha" ALTER COLUMN "modificado" DROP DEFAULT;
 COMMIT;
+
+BEGIN;
+--
+-- Remove field exercicio from ficha
+--
+SET CONSTRAINTS "ficha_exercicio_id_30620590_fk_exercicio_id" IMMEDIATE; ALTER TABLE "ficha" DROP CONSTRAINT "ficha_exercicio_id_30620590_fk_exercicio_id";
+ALTER TABLE "ficha" DROP COLUMN "exercicio_id" CASCADE;
+COMMIT;
+
+BEGIN;
+--
+-- Create model FichaExercicio
+--
+CREATE TABLE "ficha_exercicio" ("id" serial NOT NULL PRIMARY KEY, "criado" timestamp with time zone NULL, "modificado" timestamp with time zone NULL, "exercicio_id" integer NULL, "ficha_id" integer NULL);
+ALTER TABLE "ficha_exercicio" ADD CONSTRAINT "ficha_exercicio_exercicio_id_a21fdde4_fk_exercicio_id" FOREIGN KEY ("exercicio_id") REFERENCES "exercicio" ("id") DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE "ficha_exercicio" ADD CONSTRAINT "ficha_exercicio_ficha_id_c5112f54_fk_ficha_id" FOREIGN KEY ("ficha_id") REFERENCES "ficha" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "ficha_exercicio_exercicio_id_a21fdde4" ON "ficha_exercicio" ("exercicio_id");
+CREATE INDEX "ficha_exercicio_ficha_id_c5112f54" ON "ficha_exercicio" ("ficha_id");
+COMMIT;

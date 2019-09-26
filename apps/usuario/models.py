@@ -13,17 +13,17 @@ from django.conf import settings
 
 # Create your models here.
 class Usuario(AbstractUser, TimeStampedModel):
-    # username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
-    # username = models.CharField(
-    #     _('username'),
-    #     max_length=150,
-    #     unique=True,
-    #     help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-    #     validators=[username_validator],
-    #     error_messages={
-    #         'unique': _("A user with that username already exists."),
-    #     },
-    # )
+    username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        unique=True,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
     matricula = models.CharField(_('matricula'), max_length=7, unique=True, blank=None, null=None)
     first_name = models.CharField(_('first name'), max_length=30, blank=True, null=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True, null=True,)
@@ -44,6 +44,11 @@ class Usuario(AbstractUser, TimeStampedModel):
     # profile = models.ImageField(upload_to='documents/', default='documents/avatar-generic.jpeg')
     # def verify_password(self, raw_password):
     #     return pbkdf2_sha256.verify(raw_password, self.password)
+
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'matricula'
+    REQUIRED_FIELDS = ['email']
+
     class Meta(AbstractUser.Meta):
         # swappable = 'AUTH_USER_MODEL'
         db_table = 'usuario'
