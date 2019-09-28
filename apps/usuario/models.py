@@ -1,9 +1,8 @@
-from django.contrib.auth.validators import UnicodeUsernameValidator, ASCIIUsernameValidator
 from django.db import models
 from django.core.mail import send_mail
 from django.utils import six, timezone
 # from passlib.hash import pbkdf2_sha256
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from ..core.models import TimeStampedModel
 # from django.core.cache import cache
@@ -11,28 +10,36 @@ import datetime
 from django.conf import settings
 
 
+class UsuarioManager(BaseUserManager):
+    def _create_user(self, matricula, email, password, **extra_fields):
+        if not matricula:
+            raise ValueError('The given matricula must be set')
+        email = self.normalize_email(email)
+        email = email or None
+        matricula = self.model.normalize_username(matricula)
+        user = self.model(matricula=matricula, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, matricula, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(matricula, email, password, **extra_fields)
+
+    def create_superuser(self, matricula, email, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self._create_user(matricula, email, password, **extra_fields)
+
+
 # Create your models here.
-class Usuario(AbstractUser, TimeStampedModel):
-    username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
-    )
-    matricula = models.CharField(_('matricula'), max_length=7, unique=True, blank=None, null=None)
+class Usuario(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
+
+    matricula = models.CharField(_('matricula'), max_length=7, unique=True, blank=None, null=False)
     first_name = models.CharField(_('first name'), max_length=30, blank=True, null=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True, null=True,)
     email = models.EmailField(_('email address'), blank=True, null=True)
-    is_staff = models.BooleanField(
-        _('staff status'),
-        default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
-    )
     is_active = models.BooleanField(
         _('active'),
         default=True,
@@ -48,6 +55,8 @@ class Usuario(AbstractUser, TimeStampedModel):
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'matricula'
     REQUIRED_FIELDS = ['email']
+
+    objects = UsuarioManager()
 
     class Meta(AbstractUser.Meta):
         # swappable = 'AUTH_USER_MODEL'

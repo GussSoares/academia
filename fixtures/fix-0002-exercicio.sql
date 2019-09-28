@@ -25,3 +25,15 @@ ALTER TABLE "exercicio" ALTER COLUMN "criado" DROP DEFAULT;
 ALTER TABLE "exercicio" ADD COLUMN "modificado" timestamp with time zone DEFAULT '2019-09-24T14:06:24.042061+00:00'::timestamptz NULL;
 ALTER TABLE "exercicio" ALTER COLUMN "modificado" DROP DEFAULT;
 COMMIT;
+
+BEGIN;
+--
+-- Alter field descricao on exercicio
+--
+ALTER TABLE "exercicio" ALTER COLUMN "descricao" TYPE text USING "descricao"::text;
+--
+-- Alter field nome on exercicio
+--
+ALTER TABLE "exercicio" ADD CONSTRAINT "exercicio_nome_10de4315_uniq" UNIQUE ("nome");
+CREATE INDEX "exercicio_nome_10de4315_like" ON "exercicio" ("nome" varchar_pattern_ops);
+COMMIT;

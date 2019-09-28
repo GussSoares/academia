@@ -16,24 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-import academia.apps.usuario.urls as usuario
-import academia.apps.exercicio.urls as exercicio
-import academia.apps.api.urls as api
+import academia.apps.exercicio.api as api
 
+app_name = "exercicio"
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('usuario/', include())
-    # path('usuario/', include('apps.usuario.urls')),
+    url(r'^list-exercicios/$', api.list_exercicios, name="list_exercicios"),
+    url(r'^create-exercicio/$', api.create_exercicio, name="create_exercicio"),
+    url(r'^update-exercicio/(?P<pk>\d+)$', api.update_exercicio, name="update_exercicio"),
+    url(r'^get-exercicio/(?P<pk>\d+)$', api.get_exercicio, name="get_exercicio"),
 
-    # DEFAULT
-    url(r'^admin/', admin.site.urls),
-
-    # API
-    url(r'^api/', include(api, namespace="api")),
-
-    # USUARIO
-    url(r'^usuario/', include(usuario, namespace="usuario")),
-
-    # EXERCICIO
-    url(r'^exercicio/', include(exercicio, namespace="exercicio")),
 ]
