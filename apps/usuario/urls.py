@@ -22,5 +22,8 @@ app_name = "usuario"
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('usuario/', include())
-    url(r'^get-usuario/(?P<pk>\d+)$', api.get_usuario, name="get_usuario"),
+
+    # APIS
+    url(r'^api/get-usuario/(?P<pk>\d+)$', api.get_usuario, name="get_usuario"),
+    url(r'^api/list-usuarios/$', api.list_usuarios, name="list_usuarios"),
 ]

@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET'])
 @token_required
-def list_usuario(request):
+def list_usuarios(request):
     try:
         usuarios = Usuario.objects.all().values('id', 'matricula', 'email', 'first_name', 'last_name',
                                                 'last_login', 'criado', 'modificado', 'is_superuser', 'is_active')
@@ -59,14 +59,14 @@ def create_usuario(request):
 @token_required
 def update_usuario(request, pk):
     o = get_object_or_404(Usuario, pk=pk)
-    matricula = request.data.get('matricula', None)
+    # matricula = request.data.get('matricula', None)
     first_name = request.data.get('first_name', None)
     last_name = request.data.get('last_name', None)
     email = request.data.get('email', None)
 
     try:
-        if matricula:
-            o.matricula = matricula
+        # if matricula:
+        #     o.matricula = matricula
         if first_name:
             o.first_name = first_name
         if last_name:
