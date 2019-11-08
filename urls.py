@@ -19,6 +19,8 @@ from django.conf.urls import url, include
 import academia.apps.usuario.urls as usuario
 import academia.apps.exercicio.urls as exercicio
 import academia.apps.api.urls as api
+import academia.apps.dashboard.urls as dashboard
+import academia.apps.acl.urls as acl
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -27,6 +29,12 @@ urlpatterns = [
 
     # DEFAULT
     url(r'^admin/', admin.site.urls),
+
+    # ACL
+    url(r'^acl/', include((acl, 'acl'), namespace="acl")),
+
+    # DASHBOARD
+    url(r'^$', dashboard.index, name="index"),
 
     # API
     url(r'^api/', include(api, namespace="api")),

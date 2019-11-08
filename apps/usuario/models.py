@@ -39,7 +39,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     matricula = models.CharField(_('matricula'), max_length=7, unique=True, blank=None, null=False)
     first_name = models.CharField(_('first name'), max_length=30, blank=True, null=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True, null=True,)
-    email = models.EmailField(_('email address'), blank=True, null=True)
+    email = models.EmailField(_('email'), blank=True, null=True)
     is_active = models.BooleanField(
         _('active'),
         default=True,
@@ -62,6 +62,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
         # swappable = 'AUTH_USER_MODEL'
         db_table = 'usuario'
 
+    @property
+    def get_full_name(self):
+        return self.first_name+' '+self.last_name
     # def last_seen(self):
     #     return cache.get('seen_%s' % self.username)
     #

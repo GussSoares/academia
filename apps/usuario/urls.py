@@ -16,11 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-import academia.apps.usuario.api as api
+from . import api, views
 
 app_name = "usuario"
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('usuario/', include())
-    url(r'^get-usuario/(?P<pk>\d+)$', api.get_usuario, name="get_usuario"),
+
+    # USUARIOS
+    url(r'^list-users/$', views.list_user, name="list_users"),
+    url(r'^profile/$', views.user_profile, name="user_profile"),
+
+    # APIS
+    url(r'^api/get-usuario/(?P<pk>\d+)$', api.get_usuario, name="api_get_usuario"),
+    url(r'^api/list-usuarios/$', api.list_usuarios, name="api_list_usuarios"),
 ]

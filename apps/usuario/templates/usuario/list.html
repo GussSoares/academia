@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block _title %}
+  <h6 class="h2 text-white d-inline-block mb-0">Usuario</h6>
+  <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+      <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+      <li class="breadcrumb-item"><a href="#">Listagem</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Usuario</li>
+    </ol>
+  </nav>
+{% endblock %}
+{% block _content %}
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header">
+          <h3 class="mb-0">Datatable</h3>
+          <p class="text-sm mb-0">
+            This is an exmaple of datatable using the well known datatables.net plugin. This is a minimal setup in order to get started fast.
+          </p>
+        </div>
+        <div class="table-responsive py-4">
+          <table class="table table-flush dataTable" id="datatable-basic">
+            <thead class="thead-light">
+            <tr>
+              <th>Id</th>
+              <th>Matricula</th>
+              <th>Primeiro Nome</th>
+              <th>Ultimo Nome</th>
+              <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+              <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.matricula }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block javascript %}
+  <script>
+      $(document).ready(function () {
+          $('.dataTable').DataTable();
+      })
+  </script>
+{% endblock %}

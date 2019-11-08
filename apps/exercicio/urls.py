@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-import academia.apps.exercicio.api as api
+from . import api, views
 
 app_name = "exercicio"
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    # path('usuario/', include())
+    # EXERCICIO
+    url(r'^list/$', views.list, name="list"),
+
+    # API
     url(r'^list-exercicios/$', api.list_exercicios, name="list_exercicios"),
     url(r'^create-exercicio/$', api.create_exercicio, name="create_exercicio"),
     url(r'^update-exercicio/(?P<pk>\d+)$', api.update_exercicio, name="update_exercicio"),
