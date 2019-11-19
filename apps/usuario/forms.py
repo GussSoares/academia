@@ -25,20 +25,23 @@ class LoginForm(forms.Form):
     matricula = UsernameField(
         max_length=254,
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control placeholder-no-fix',
             'placeholder': 'Matricula',
             'data-msg': 'Please enter your matricula',
-            'type': 'text'
+            'type': 'text',
+            'autocomplete': 'off',
+            'name': 'username'
         }),
     )
     password = forms.CharField(
         # label=_("Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control placeholder-no-fix',
             'placeholder': 'Password',
             'data-msg': 'Please enter your password',
-            'type': 'password'
+            'type': 'password',
+            'autocomplete': 'off'
         }),
     )
 

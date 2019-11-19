@@ -1,1 +1,65 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block _title %}
+    <h6 class="h2 text-white d-inline-block mb-0">Exercício</h6>
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="#">Listagem</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Exercício</li>
+        </ol>
+    </nav>
+{% endblock %}
+{% block _content %}
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header">
+                    <h3 class="mb-0">Datatable</h3>
+                    <p class="text-sm mb-0">
+                        This is an exmaple of datatable using the well known datatables.net plugin. This is a minimal setup in order to get started fast.
+                    </p>
+                </div>
+                <div class="table-responsive py-4">
+                    <table class="table table-flush dataTable" id="datatable-basic">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Descição</th>
+                            <th>Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for exercicio in exercicios %}
+                            <tr>
+                                <td>{{ exercicio.id }}</td>
+                                <td>{{ exercicio.nome }}</td>
+                                <td>{{ exercicio.descricao }}</td>
+                                <td><button class="btn btn-sm btn-danger">Remover</button></td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block css %}
+{#    <link href="{% static 'assets/global/plugins/datatables/datatables.min.css' %}" />#}
+{#    <link href="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css' %}" />#}
+{% endblock %}
+{% block javascript %}
+{#    <script src="{% static 'assets/global/scripts/datatable.js' %}"></script>#}
+{#    <script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}"></script>#}
+{#    <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}"></script>#}
+    <script>
+        $(document).ready(function () {
+            $('.dataTable').DataTable();
+        })
+    </script>
+{% endblock %}

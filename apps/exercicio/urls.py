@@ -22,6 +22,7 @@ app_name = "exercicio"
 urlpatterns = [
     # EXERCICIO
     url(r'^list/$', views.list, name="list"),
+    url(r'^create/$', views.create, name="create"),
 
     # API
     url(r'^list-exercicios/$', api.list_exercicios, name="list_exercicios"),
