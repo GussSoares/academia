@@ -4,6 +4,8 @@ from django.utils import six, timezone
 # from passlib.hash import pbkdf2_sha256
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
+from rest_framework import serializers
+
 from ..core.models import TimeStampedModel
 # from django.core.cache import cache
 import datetime
@@ -78,3 +80,13 @@ class Usuario(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     #             return True
     #     else:
     #         return False
+
+
+'''###################### SERIALIZERS ######################'''
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        localized_fields = '__all__'
+        fields = ('id', 'matricula', 'first_name', 'last_name', 'email', 'is_active')

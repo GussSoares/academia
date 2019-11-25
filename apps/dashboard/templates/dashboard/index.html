@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block _content %}
 <!-- BEGIN DASHBOARD STATS -->
@@ -6,14 +7,14 @@
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="dashboard-stat blue-madison">
             <div class="visual">
-                <i class="fa fa-comments"></i>
+                <i class="fa fa-user"></i>
             </div>
             <div class="details">
                 <div class="number">
-                    1349
+                    <span data-counter="counterup" data-value="{{ users }}">0</span>
                 </div>
                 <div class="desc">
-                    New Feedbacks
+                    Total Clientes
                 </div>
             </div>
             <a class="more" href="javascript:;">
@@ -79,5 +80,6 @@
 <!-- END DASHBOARD STATS -->
 {% endblock %}
 {% block javascript %}
-
+{#<script src="{% static 'assets/apps/dashboard/js/dashboard.min.js' %}" type="text/javascript"></script>#}
+<script src="{% static 'assets/apps/dashboard/js/app.min.js' %}" type="text/javascript"></script>
 {% endblock %}

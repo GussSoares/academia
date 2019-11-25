@@ -3,101 +3,59 @@
 
 {% block _content %}
     <div class="row">
-        <div class="col-xl-12 order-xl-2">
-            <div class="card card-profile">
-                <form method="post" action="{% url 'usuario:user_profile' %}">
-                    {% csrf_token %}
-                    {#            <img src="{% static 'assets/img/theme/img-1-1000x600.jpg' %}" alt="Image placeholder" class="card-img-top">#}
-                    <div class="row justify-content-center">
-                        <div class="col-lg-3 order-lg-2">
-                            <div class="card-profile-image">
-                                <a href="#">
-                                    <img src="{% static 'assets/img/theme/avatar-generic.jpeg' %}" class="rounded-circle">
-                                </a>
-                            </div>
-                        </div>
+        <div class="col-md-12">
+            <div class="portlet light profile-sidebar-portlet">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="{% static 'assets/admin/pages/media/profile/profile_user.jpg' %}" class="img-responsive" alt="">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        Marcus Doe
                     </div>
-                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                        <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-sm btn-info mr-4">Editar</a>
-                            {#                        <a href="#" class="btn btn-sm btn-default float-right">Message</a>#}
-                        </div>
+                    <div class="profile-usertitle-job">
+                        Developer
                     </div>
-                    <div class="card-body pt-0">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card-profile-stats d-flex justify-content-center">
-                                    <div>
-                                        <span class="heading">{{ qtd_meses }}</span>
-                                        <span class="description">Meses</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">{{ qtd_fichas }}</span>
-                                        <span class="description">Fichas</span>
-                                    </div>
-                                    {#                                <div>#}
-                                    {#                                    <span class="heading">89</span>#}
-                                    {#                                    <span class="description">Comments</span>#}
-                                    {#                                </div>#}
-                                </div>
-                            </div>
-                        </div>
-{#                        <div class="text-center">#}
-{#                            <h5 class="h3">{{request.user.get_full_name}}</h5>#}
-{#                            <div class="h5 font-weight-300">#}
-{#                                <i class="ni location_pin mr-2"></i>{{request.user.email}}#}
-{#                            </div>#}
-{#                            <div class="h5 mt-4">#}
-{#                                <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer#}
-{#                            </div>#}
-{#                            <div>#}
-{#                                <i class="ni education_hat mr-2"></i>University of Computer Science#}
-{#                            </div>#}
-{#                        </div>#}
-                        <div class="row">
-                            <div class="col-md-8">
-                                <br>
-                                <h5 class="h3 mb-0">Informações</h5>
-                                <hr>
-                                <div class="row">
-                                    {% for field in form %}
-                                        {% if field.name != 'is_superuser' %}
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>{{ field.label }}</label>
-                                                    {{ field }}
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <br>
-                                <h5 class="h3 mb-0">Autorizações</h5>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="custom-control custom-checkbox mb-3">
-                                            {{ form.is_superuser }}
-                                            <label class="custom-control-label" for="id_is_superuser">{{ form.is_superuser.label }}</label>
-                                        </div>
-                                    </div>
-                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="float-right">
-                                    <button type="submit" class="btn btn-primary mr-4">Salvar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-circle green-haze btn-sm">Follow</button>
+                    <button type="button" class="btn btn-circle btn-danger btn-sm">Message</button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="extra_profile.html">
+                                <i class="icon-home"></i>
+                                Overview </a>
+                        </li>
+                        <li>
+                            <a href="extra_profile_account.html">
+                                <i class="icon-settings"></i>
+                                Account Settings </a>
+                        </li>
+                        <li>
+                            <a href="page_todo.html" target="_blank">
+                                <i class="icon-check"></i>
+                                Tasks </a>
+                        </li>
+                        <li>
+                            <a href="extra_profile_help.html">
+                                <i class="icon-info"></i>
+                                Help </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END MENU -->
             </div>
         </div>
     </div>
-    <button class="btn btn-info" data-toggle="notify" data-placement="top" data-align="center" data-type="info" data-icon="ni ni-bell-55">Info</button>
+{% endblock %}
+{% block css %}
+<link href="{% static 'assets/admin/pages/css/profile.css' %}" rel="stylesheet" type="text/css"/>
 {% endblock %}

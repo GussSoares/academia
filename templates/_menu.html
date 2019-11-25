@@ -41,8 +41,6 @@
                 <a href="{% url 'index' %}">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
-                    {#					<span class="selected"></span>#}
-                    {#					<span class="arrow open"></span>#}
                 </a>
             </li>
             <li>
@@ -54,6 +52,18 @@
                 <ul class="sub-menu">
                     <li>
                         <a href="{% url 'usuario:list_users' %}">Usuários</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="icon-heart"></i>
+                    <span class="title">Exercícios</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{% url 'exercicio:list' %}">Exercícios</a>
                     </li>
                 </ul>
             </li>

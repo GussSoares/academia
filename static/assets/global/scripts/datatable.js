@@ -297,7 +297,20 @@ var Datatable = function() {
 
         getTable: function() {
             return table;
-        }
+        },
+
+        getAjaxParams: function() {
+            return ajaxParams;
+        },
+
+        getRow: function() {
+            var rows = [];
+            $('tbody > tr > td:nth-child(1)', table).each(function() {
+                rows.push($(this).val());
+            });
+
+            return rows;
+        },
 
     };
 

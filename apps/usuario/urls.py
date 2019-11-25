@@ -30,4 +30,6 @@ urlpatterns = [
     # APIS
     url(r'^api/get-usuario/(?P<pk>\d+)$', api.get_usuario, name="api_get_usuario"),
     url(r'^api/list-usuarios/$', api.list_usuarios, name="api_list_usuarios"),
+    url(r'^api/list-usuario-ajax/$', api.list_usuario_ajax, name="list_usuario_ajax"),
+    url(r'^api/edit-usuario-ajax/$', api.edit_usuario_ajax, name="edit_usuario_ajax"),
 ]

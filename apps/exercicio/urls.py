@@ -29,5 +29,7 @@ urlpatterns = [
     url(r'^create-exercicio/$', api.create_exercicio, name="create_exercicio"),
     url(r'^update-exercicio/(?P<pk>\d+)$', api.update_exercicio, name="update_exercicio"),
     url(r'^get-exercicio/(?P<pk>\d+)$', api.get_exercicio, name="get_exercicio"),
+    url(r'^api/list-exercicio-ajax/$', api.list_exercicio_ajax, name="list_exercicio_ajax"),
+    url(r'^api/edit-exercicio-ajax/$', api.edit_exercicio_ajax, name="edit_exercicio_ajax")
 
 ]
