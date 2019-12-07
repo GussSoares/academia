@@ -140,7 +140,7 @@ USE_TZ = True
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "academia/static")
 ]
-# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "academia/static")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "academia/static")
 STATIC_URL = '/static/'
 
 LOGIN_URL = 'acl:login'
