@@ -127,7 +127,8 @@ var TableDatatablesAjax = function () {
                     },
                     {
                         'render': function (data, type, row) {
-                            return `<a id="editar" class="PageLink" title="Editar"><i class="fa fa-edit"></i></a>`
+                            return `<a id="editar" class="PageLink" title="Editar"><i class="fa fa-edit"></i></a>`+
+                                   `<a class=" btn yellow btn-outline sbold" href="/exercicio/api/edit-exercicio-modal/${row.id}" data-target="#ajax" data-toggle="modal"> View Demo </a>`
                         },
                         'targets': 3
                     }
@@ -170,11 +171,14 @@ var TableDatatablesAjax = function () {
 
         // handle edit option in actions
         $('table').on('click', '.PageLink', function(){
+            // grid.getDataTable().ajax.reload();
+
             let aux_this = $(this);
             let rowData = $('table').DataTable().row($(this).closest('tr')).data();
             let colNome = $(this).parent().siblings()[1];
             let colDescricao = $(this).parent().siblings()[2];
-
+            // cancelar_without_reload(rowData, colNome, colDescricao, aux_this);
+            // editar(rowData, colNome, colDescricao, aux_this);
             $(colNome).html(`<input id="temp_nome" class="form-control" value="${rowData.nome}" type="text" />`);
             $(colDescricao).html(`<input id="temp_desc" class="form-control" value="${rowData.descricao}" type="text" />`);
             $(aux_this).html(`<a id="salvar" class="PageLink" title="Salvar"><i style="color:green" class="fa fa-check"></i></a>` +
@@ -188,6 +192,10 @@ var TableDatatablesAjax = function () {
                 cancelar(rowData, colNome, colDescricao, aux_this);
             });
         });
+
+        // function editar_modal(rowData, colNome, colDescricao, aux_this) {
+        //
+        // }
 
         function salvar(rowData) {
             $.ajax({
@@ -215,6 +223,13 @@ var TableDatatablesAjax = function () {
             $(colDescricao).html(rowData.descricao);
             $(aux_this).html(`<a id="editar" class="PageLink" title="Editar"><i class="fa fa-edit"></i></a>`);
             grid.getDataTable().ajax.reload();
+        }
+
+        function cancelar_without_reload(rowData, colNome, colDescricao, aux_this) {
+            $(colNome).html(rowData.nome);
+            $(colDescricao).html(rowData.descricao);
+            $(aux_this).html(`<a id="editar" class="PageLink" title="Editar"><i class="fa fa-edit"></i></a>`);
+            // grid.getDataTable().ajax.reload();
         }
 
         function setParamsBusca() {

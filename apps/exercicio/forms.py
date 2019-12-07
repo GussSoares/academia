@@ -12,7 +12,7 @@ class ExercicioForm(forms.ModelForm):
                 'class': 'form-control',
                 'autocomplete': 'off'
             }),
-            'descricao': forms.TextInput(attrs={
+            'descricao': forms.Textarea(attrs={
                 'class': 'form-control',
                 'autocomplete': 'off'
             })

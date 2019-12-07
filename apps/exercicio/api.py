@@ -2,15 +2,17 @@ import json
 from datetime import datetime
 from functools import reduce
 
+from django.contrib import messages
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import IntegrityError
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework.decorators import api_view
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.renderers import JSONRenderer
 
+from ..exercicio.forms import ExercicioForm
 from ..api.utils import token_required
 from ..exercicio.models import Exercicio, ExercicioSerializer
 
@@ -212,3 +214,20 @@ def edit_exercicio_ajax(request):
                             encoder=DjangoJSONEncoder, safe=False)
     return JsonResponse(data={"msg": "Exercicio alterado com Sucesso", "status": "200"},
                         status=200, encoder=DjangoJSONEncoder, safe=False)
+
+
+@api_view(['GET', 'POST'])
+def editar_exercicip_modal_ajax(request, pk):
+    ex = get_object_or_404(Exercicio, pk=pk)
+    form = ExercicioForm(request.POST or None, instance=ex)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Exercício atualizado com sucesso!')
+            return redirect('exercicio:list')
+    context = {
+        'pk': pk,
+        'form': form
+    }
+    template_name = 'exercicio/modals/editar_exercicio_modal.html'
+    return render(request, template_name, context)

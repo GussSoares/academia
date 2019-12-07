@@ -4,11 +4,11 @@
 {% block _content %}
     <div class="row">
         <div class="col-md-12">
-{#            <div class="note note-danger">#}
-{#                <p>#}
-{#                    NOTE: The below datatable is not connected to a real database so the filter and sorting is just simulated for demo purposes only.#}
-{#                </p>#}
-{#            </div>#}
+            {#            <div class="note note-danger">#}
+            {#                <p>#}
+            {#                    NOTE: The below datatable is not connected to a real database so the filter and sorting is just simulated for demo purposes only.#}
+            {#                </p>#}
+            {#            </div>#}
             <!-- Begin: life time stats -->
             <div class="portlet light">
                 <div class="portlet-title">
@@ -17,26 +17,26 @@
                     </div>
                     <div class="tools">
                         <a href="" class="collapse" data-original-title="" title=""> </a>
-{#                        <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>#}
-{#                        <a href="" class="reload" data-original-title="" title=""> </a>#}
+                        {#                        <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>#}
+                        {#                        <a href="" class="reload" data-original-title="" title=""> </a>#}
                         <a href="" class="fullscreen" data-original-title="" title=""> </a>
-{#                        <a href="" class="remove" data-original-title="" title=""> </a>#}
+                        {#                        <a href="" class="remove" data-original-title="" title=""> </a>#}
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="table-container">
-{#                        <div class="table-actions-wrapper">#}
-{#									<span>#}
-{#									</span>#}
-{#                            <select class="table-group-action-input form-control input-inline input-small input-sm">#}
-{#                                <option value="">Select...</option>#}
-{#                                <option value="Cancel">Cancel</option>#}
-{#                                <option value="Cancel">Hold</option>#}
-{#                                <option value="Cancel">On Hold</option>#}
-{#                                <option value="Close">Close</option>#}
-{#                            </select>#}
-{#                            <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>#}
-{#                        </div>#}
+                        {#                        <div class="table-actions-wrapper">#}
+                        {#									<span>#}
+                        {#									</span>#}
+                        {#                            <select class="table-group-action-input form-control input-inline input-small input-sm">#}
+                        {#                                <option value="">Select...</option>#}
+                        {#                                <option value="Cancel">Cancel</option>#}
+                        {#                                <option value="Cancel">Hold</option>#}
+                        {#                                <option value="Cancel">On Hold</option>#}
+                        {#                                <option value="Close">Close</option>#}
+                        {#                            </select>#}
+                        {#                            <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>#}
+                        {#                        </div>#}
                         <table class="table table-striped table-bordered table-hover" id="datatable_ajax">
                             <thead class="thead-light">
                             <tr>
@@ -47,7 +47,7 @@
                             </tr>
                             </thead>
                             <tbody>
-{% comment %}
+                            {% comment %}
                             {% for exercicio in exercicios %}
                                 <tr>
                                     <td>{{ exercicio.id }}</td>
@@ -64,6 +64,20 @@
                 </div>
             </div>
             <!-- End: life time stats -->
+        </div>
+    </div>
+    <!--DOC: Aplly "modal-cached" class after "modal" class to enable ajax content caching-->
+    <div class="modal fade" id="ajax" role="basic" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="loading-spinner" style="width: 200px; margin-left: -100px;">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- END PAGE CONTENT-->
