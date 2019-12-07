@@ -25,7 +25,7 @@ SECRET_KEY = 'nr4!^hy_^_059rm66#3*c%h0wsi6-_&+xu_vyxm4a&1r-rlrr!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['academia-system.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
