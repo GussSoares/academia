@@ -106,3 +106,4 @@ venv.bak/
 # more
 __init__.py
 .idea/
+.env
