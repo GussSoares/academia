@@ -128,7 +128,7 @@ var TableDatatablesAjax = function () {
                     {
                         'render': function (data, type, row) {
                             // return `<a id="editar" class="PageLink" title="Editar"><i class="fa fa-edit"></i></a>`+
-                            return `<a class=" btn yellow btn-outline sbold" href="/exercicio/api/edit-exercicio-modal/${row.id}" data-target="#ajax" data-toggle="modal"> View Demo </a>`
+                            return `<a href="/exercicio/api/edit-exercicio-modal/${row.id}" data-target="#ajax" data-toggle="modal"><i class="fa fa-edit"></i></a>`
                         },
                         'targets': 3
                     }
