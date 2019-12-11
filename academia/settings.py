@@ -99,7 +99,16 @@ WSGI_APPLICATION = 'academia.wsgi.application'
 #     }
 # }
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'academia',
+#         'USER': 'postgres',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 from dj_database_url import parse as dburl
 # default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
@@ -167,14 +176,3 @@ MESSAGE_TAGS = {
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'academia',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
