@@ -104,17 +104,17 @@
         </div>
         <hr>
         <div class="portlet-body">
-            <div id="gmap_basic" class="gmaps" style="position: relative; overflow: hidden;"></div>
+            <div id="gmap_basic" class="gmaps" style="position: relative; overflow: hidden; height: 500px"></div>
         </div>
     </div>
-    <div id="panel">
-        <div id="color-palette"></div>
-        <div>
-            <button id="delete-button">Delete Selected Shape</button>
-            <button id="calculate" onClick="calcar()">calculate area</button>
-            <div id="area"></div>
-        </div>
-    </div>
+{#    <div id="panel">#}
+{#        <div id="color-palette"></div>#}
+{#        <div>#}
+{#            <button id="delete-button">Delete Selected Shape</button>#}
+{#            <button id="calculate" onClick="calcar()">calculate area</button>#}
+{#            <div id="area"></div>#}
+{#        </div>#}
+{#    </div>#}
     <br>
 
     <div id="mapid" class="gmaps" style="position: relative; overflow: hidden;"></div>
@@ -133,7 +133,7 @@
     <script src="https://unpkg.com/leaflet-draw@1.0.2/dist/leaflet.draw-src.js"></script>
 
     <script src="{% static 'assets/apps/dashboard/js/app.min.js' %}" type="text/javascript"></script>
-{#    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDimr3KILRPDIyEwcK3ro3Sbg0fosBnnMU&callback=initMap&libraries=geometry,drawing"></script>#}
+    {#    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDimr3KILRPDIyEwcK3ro3Sbg0fosBnnMU&callback=initMap&libraries=geometry,drawing"></script>#}
     {#    <script src="{% static 'assets/apps/dashboard/area-google-maps/js/drawingManager.js' %}"></script>#}
     {#    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing"></script>#}
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5.1.6/turf.min.js"></script>
@@ -291,22 +291,47 @@
 
 
 
+        function latlngToHtml(layer){
+            var latlng = layer.toGeoJSON().geometry.coordinates[0];
+            latlng.pop()
+            var template = '<ul>';
+            {% comment %}latlng.forEach(function (value, index) {
+                template += `<li>Latitude: ${value[0]}   Longitude: ${value[1]}</li>`;
+                console.log(template)
+            });{% endcomment %}
+            for (var i=0; i < latlng.length; i++){
+                template += `<li>Latitude: ${latlng[i][0]}   Longitude: ${latlng[i][1]}</li>`;
+                {#console.log(latlng[0])#}
+            }
+            template += '</ul>';
+            return template;
+        }
 
 
 
+        var osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                maxZoom: 22,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                accessToken: 'pk.eyJ1IjoiZ3VzdGF2bzU4NTUiLCJhIjoiY2s0M2R3NnhsMDN0cTNqcWszZGU0YmZtaCJ9.pJWczUcicY45uQZ4IeoKYQ',
+                id: 'mapbox/streets-v11'
+            }),
+            google = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+                attribution: 'google',
+                maxZoom: 22
+            }),
+            Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
+                attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                apikey: 'd1af968e35ef41e992458cce1c133d6e',
+                maxZoom: 22
+            });
 
-        var osmUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-            osmAttrib = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib, accessToken: 'pk.eyJ1IjoiZ3VzdGF2bzU4NTUiLCJhIjoiY2s0M2R3NnhsMDN0cTNqcWszZGU0YmZtaCJ9.pJWczUcicY45uQZ4IeoKYQ', id: 'mapbox/streets-v11' }),
-            map = new L.Map('mapid', { center: new L.LatLng(51.505, -0.04), zoom: 13 }),
+
+            map = new L.Map('gmap_basic', { center: new L.LatLng(51.505, -0.04), zoom: 13 }),
             drawnItems = L.featureGroup().addTo(map);
         L.control.layers({
-                'osm': osm.addTo(map),
-                "google": L.tileLayer(
-                    'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',
-                    {
-                        attribution: 'google'
-                    })
+                'OpenStreetMaps': osm.addTo(map),
+                "Google Street": google,
+                "Thunderforest Dark": Thunderforest_TransportDark
             },
             {
                 'drawlayer': drawnItems
@@ -347,13 +372,38 @@
 
             // layer.bindPopup(area);
             var popup = L.popup()
+            var geo = latlngToHtml(layer);
 
-            map.on('click', function(e){
+            layer.on('click', function(e){
                 popup
                     .setLatLng(e.latlng)
-                    .setContent("Área: " + area.toString() + 'sq km')
+                    .setContent("Área: " + area.toString() + 'm²')
                     .openOn(map);
             });
+            var pop = '<br>' +
+                {#'   <div class="row" style="width: 300px">\n' +#}
+                {#'        <div class="col-md-12">\n' +#}
+                '            <div class="portlet light bordered bg-inverse" style="width:300px ">\n' +
+                '                <div class="portlet-title tabbable-line">\n' +
+                '                    <ul class="nav nav-tabs">\n' +
+                {#'                        <div class="row">\n' +#}
+                '                            <li class="active"><a href="#tab1" data-toggle="tab">INFO</a></li>\n' +
+                '                            <li><a href="#tab2" data-toggle="tab">GEOJSON</a></li>\n' +
+                {#'                        </div>' +#}
+                '                    </ul>\n' +
+                '                </div>\n' +
+                '                <div class="portlet-body">\n' +
+                '                    <div class="tab-content">\n' +
+                `                        <div class="tab-pane active" id="tab1"><h4>Área da Região: ${area}m²</h4></div>\n` +
+                `                        <div class="tab-pane" id="tab2"><h5>${geo}</h5></div>\n` +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n';
+            {#'        </div>\n' +#}
+            {#'    </div>';#}
+            layer.on('contextmenu', function (e) {
+                popup.setLatLng(e.latlng).setContent(pop).openOn(map);
+            })
         });
 
     </script>
