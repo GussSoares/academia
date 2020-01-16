@@ -107,14 +107,28 @@
             <div id="gmap_basic" class="gmaps" style="position: relative; overflow: hidden; height: 500px"></div>
         </div>
     </div>
-{#    <div id="panel">#}
-{#        <div id="color-palette"></div>#}
-{#        <div>#}
-{#            <button id="delete-button">Delete Selected Shape</button>#}
-{#            <button id="calculate" onClick="calcar()">calculate area</button>#}
-{#            <div id="area"></div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <h4 class="bold">Previsão do tempo</h4>
+                </div>
+                <div class="portlet-body">
+                    <div id="previsao" class="row text-center" style="display: flex">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    <div id="panel">#}
+    {#        <div id="color-palette"></div>#}
+    {#        <div>#}
+    {#            <button id="delete-button">Delete Selected Shape</button>#}
+    {#            <button id="calculate" onClick="calcar()">calculate area</button>#}
+    {#            <div id="area"></div>#}
+    {#        </div>#}
+    {#    </div>#}
     <br>
 
     <div id="mapid" class="gmaps" style="position: relative; overflow: hidden;"></div>
@@ -326,7 +340,7 @@
             });
 
 
-            map = new L.Map('gmap_basic', { center: new L.LatLng(51.505, -0.04), zoom: 13 }),
+        map = new L.Map('gmap_basic', { center: new L.LatLng(51.505, -0.04), zoom: 13, zoomControl: false }),
             drawnItems = L.featureGroup().addTo(map);
         L.control.layers({
                 'OpenStreetMaps': osm.addTo(map),
@@ -340,6 +354,9 @@
                 position: 'topleft',
                 collapsed: true
             }).addTo(map);
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
         map.addControl(new L.Control.Draw({
             edit: {
                 featureGroup: drawnItems,
@@ -367,11 +384,10 @@
         map.on(L.Draw.Event.CREATED, function (event) {
             var layer = event.layer;
             var area = turf.area(layer.toGeoJSON());
-            console.log(area)
             drawnItems.addLayer(layer);
 
             // layer.bindPopup(area);
-            var popup = L.popup()
+            var popup = L.popup();
             var geo = latlngToHtml(layer);
 
             layer.on('click', function(e){
@@ -381,31 +397,75 @@
                     .openOn(map);
             });
             var pop = '<br>' +
-                {#'   <div class="row" style="width: 300px">\n' +#}
-                {#'        <div class="col-md-12">\n' +#}
                 '            <div class="portlet light bordered bg-inverse" style="width:300px ">\n' +
                 '                <div class="portlet-title tabbable-line">\n' +
                 '                    <ul class="nav nav-tabs">\n' +
-                {#'                        <div class="row">\n' +#}
                 '                            <li class="active"><a href="#tab1" data-toggle="tab">INFO</a></li>\n' +
                 '                            <li><a href="#tab2" data-toggle="tab">GEOJSON</a></li>\n' +
-                {#'                        </div>' +#}
                 '                    </ul>\n' +
                 '                </div>\n' +
                 '                <div class="portlet-body">\n' +
                 '                    <div class="tab-content">\n' +
-                `                        <div class="tab-pane active" id="tab1"><h4>Área da Região: ${area}m²</h4></div>\n` +
+                `                        <div class="tab-pane active" id="tab1"><h4>Área da Região: ${area} m²</h4></div>\n` +
                 `                        <div class="tab-pane" id="tab2"><h5>${geo}</h5></div>\n` +
                 '                    </div>\n' +
                 '                </div>\n' +
                 '            </div>\n';
-            {#'        </div>\n' +#}
-            {#'    </div>';#}
+
             layer.on('contextmenu', function (e) {
                 popup.setLatLng(e.latlng).setContent(pop).openOn(map);
             })
         });
 
     </script>
-    {#    <script src="{% static 'assets/apps/dashboard/area-google-maps/js/area-google-maps.js' %}"></script>#}
+
+    <script>
+        async function previsao_tempo() {
+            return await $.ajax({
+                url: 'https://api.hgbrasil.com/weather?woeid=455830&format=json-cors&key=51fbbdec',
+                method: 'GET',
+                success: function (data) {
+                    return data;
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            const icons = {
+                'rain': '{% static 'assets/global/weather-icons/png/021-rain.png' %}',
+                'storm': '{% static 'assets/global/weather-icons/png/021-storm.png' %}',
+                'snow': '{% static 'assets/global/weather-icons/png/021-snowing.png' %}',
+                'clear_day': '{% static 'assets/global/weather-icons/png/021-sun.png' %}',
+                'clear_night': '{% static 'assets/global/weather-icons/png/021-night-1.png' %}',
+                'cloud': '{% static 'assets/global/weather-icons/png/021-cloud.png' %}',
+                'cloudly_day': '{% static 'assets/global/weather-icons/png/021-cloudy-1.png' %}',
+                'cloudly_night': '{% static 'assets/global/weather-icons/png/021-night-1.png' %}',
+                'hail': '{% static 'assets/global/weather-icons/png/021-snowflake.png' %}',
+                'fog': null,
+                'none_day': null,
+                'none_night': null
+            };
+            previsao_tempo().then(function (data) {
+                var lista_dias = data.results.forecast;
+
+                for (let i=0; i<5; i++){
+                    let item = lista_dias[i];
+                    console.log(item);
+                    $('#previsao').append('<div class="col-md-2" style="flex:1; border-color: #E1E5EC; border-style: solid; border-width: 1px; margin: 10px; padding: 10px">' +
+                                          `  <img height="50" width="50" src="${icons[item.condition]}" /><br>` +
+                                          `  <span>${item.weekday}</span>` +
+                                          '  <div class="row text-center">' +
+                                          '       <div class="col-md-6">' +
+                                          `          <span>Mín: ${item.min}°C</span>`+
+                                          '       </div>' +
+                                          '       <div class="col-md-6">' +
+                                          `          <span>Máx: ${item.max}°C</span>`+
+                                          '       </div>' +
+                                          '  </div>' +
+                                          '</div>');
+                }
+            })
+        })
+
+    </script>
 {% endblock %}
