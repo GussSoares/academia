@@ -67,7 +67,8 @@ var TableDatatablesAjax = function () {
                             "first": "Primeiro",
                             "page": "Página",
                             "pageOf": "de"
-                        }
+                        },
+                        "processing": "$.blockUI({ message: '<h1><img src=\"../../../admin/layout/img/ajax-loading.gif\" /> Just a moment...</h1>' });"
                     },
                 "lengthMenu": [
                     // [10, 20, 50, 100],
