@@ -1313,6 +1313,7 @@ License: You must have a valid license purchased only from themeforest(the above
         {#Index.initMiniCharts();#}
         Tasks.initDashboardWidget();
     });
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 </script>
 {% block javascript %}{% endblock %}
 <!-- END JAVASCRIPTS -->

@@ -61,8 +61,7 @@ var Datatable = function() {
                             "first": "First",
                             "page": "Page",
                             "pageOf": "of"
-                        },
-                        "processing": "$.blockUI({ message: '<h1><img src=\"../../../admin/layout/img/ajax-loading.gif\" /> Just a moment...</h1>' });"
+                        }
                     },
 
                     "orderCellsTop": true,
