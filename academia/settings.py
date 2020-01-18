@@ -15,7 +15,9 @@ import dotenv
 import dj_database_url
 import django_heroku
 from decouple import config
+from dj_database_url import parse as dburl
 from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +33,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'nr4!^hy_^_059rm66#3*c%h0wsi6-_&+xu_vyxm4a&1r-rlrr!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['academia-system.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -92,28 +94,9 @@ WSGI_APPLICATION = 'academia.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'academia',
-#         'USER': 'postgres',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-from dj_database_url import parse as dburl
 # default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 #
-# DATABASES = { 'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
+# DATABASES = { 'default': config('DATABASE_URL', default=defausudo nano /usr/lib/sddm/sddm.conf.d/sddm.conflt_dburl, cast=dburl), }
 
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
@@ -176,3 +159,9 @@ MESSAGE_TAGS = {
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+
+# em producao, o arquivo dev não existirá,  logo as configurações padrão serão somente do settings
+try:
+    from .local_settings import *
+except ImportError:
+    pass

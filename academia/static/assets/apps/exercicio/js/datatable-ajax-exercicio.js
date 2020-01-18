@@ -78,7 +78,7 @@ var TableDatatablesAjax = function () {
                     [10, 20, 50, 100, 150, 300] // change per page values here
                 ],
                 "pageLength": 10, // default record count per page
-                "processing": false,
+                "processing": true,
                 "serverSide": true,
                 "ajax": {
                     "type": "GET", // request type
